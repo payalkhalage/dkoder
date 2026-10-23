@@ -1,0 +1,394 @@
+
+.robot-image-button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 540px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.modern-robot-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 28px #a86bff45);
+  animation: robot-image-float 4s ease-in-out infinite;
+  transition: filter 0.3s ease;
+}
+
+.robot-image-button:hover .modern-robot-image {
+  filter: drop-shadow(0 0 35px #a86bff75);
+}
+
+.robot-image-button:focus-visible {
+  outline: 2px solid #ffd84d;
+  outline-offset: 5px;
+  border-radius: 20px;
+}
+
+.robot-image-button.celebrating .modern-robot-image {
+  animation: robot-celebrate 0.6s ease-in-out 2;
+  filter: drop-shadow(0 0 35px #ffd84d85);
+}
+
+@keyframes robot-image-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes robot-celebrate {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+
+  40% {
+    transform: translateY(-18px) scale(1.05) rotate(-2deg);
+  }
+
+  70% {
+    transform: translateY(-6px) scale(1.02) rotate(2deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .robot-image-button {
+    max-width: 410px;
+  }
+
+  .modern-robot-image {
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 420px) {
+  .robot-image-button {
+    max-width: 300px;
+  }
+
+  .modern-robot-image {
+    max-height: 300px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modern-robot-image {
+    animation: none !important;
+  }
+}
+
+
+
+.robot-challenge-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.robot-image-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  max-width: 540px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.robot-image-button:hover .modern-robot-image {
+  filter: drop-shadow(0 0 35px #a86bff80);
+}
+
+.robot-image-button:focus-visible {
+  outline: 2px solid #ffd84d;
+  outline-offset: 5px;
+  border-radius: 20px;
+}
+
+.robot-challenge-badge {
+  position: absolute;
+  right: 3%;
+  bottom: 8%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  color: #2b1745;
+  background: #ffdc57;
+  border: 1px solid #fff0a8;
+  border-radius: 999px;
+  box-shadow: 0 5px 20px #ffd84d35;
+  font-size: 11px;
+  font-weight: 800;
+  animation: challenge-badge-float 2.5s ease-in-out infinite;
+}
+
+.daily-challenge-panel {
+  position: relative;
+  z-index: 10;
+  width: min(100%, 410px);
+  margin: 16px auto 0;
+  padding: 20px;
+  color: #f8f2ff;
+  background: linear-gradient(145deg, #302047, #1e1032);
+  border: 1px solid #a783d65c;
+  border-radius: 22px;
+  box-shadow: 0 18px 55px #10051f70;
+  animation: challenge-panel-in 0.25s ease-out;
+}
+
+.challenge-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.challenge-heading-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  color: #30194a;
+  background: #ffdc57;
+  border-radius: 13px;
+}
+
+.challenge-heading-text {
+  flex: 1;
+}
+
+.challenge-eyebrow {
+  color: #d6b8ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.challenge-heading-text h3 {
+  margin: 3px 0 0;
+  color: white;
+  font-size: 20px;
+}
+
+.challenge-close {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  color: #e8dafa;
+  background: #ffffff0d;
+  border: 1px solid #ffffff24;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.challenge-topic {
+  display: inline-flex;
+  margin-top: 18px;
+  padding: 6px 10px;
+  color: #ffdf68;
+  background: #ffdc5715;
+  border: 1px solid #ffdc5738;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.challenge-question {
+  margin: 13px 0;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.challenge-code {
+  overflow-x: auto;
+  margin: 12px 0;
+  padding: 12px;
+  color: #ffdf68;
+  background: #130b20;
+  border: 1px solid #ffffff18;
+  border-radius: 10px;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+
+.challenge-options {
+  display: grid;
+  gap: 9px;
+  margin-top: 14px;
+}
+
+.challenge-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 12px;
+  color: #f0e8fa;
+  background: #ffffff08;
+  border: 1px solid #ffffff20;
+  border-radius: 11px;
+  text-align: left;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.challenge-option:hover:not(:disabled) {
+  background: #a783d622;
+  border-color: #b995ee;
+}
+
+.challenge-option.selected {
+  background: #a783d629;
+  border-color: #c6a1ff;
+}
+
+.challenge-option.correct {
+  background: #37c98a20;
+  border-color: #37c98a;
+  color: #a6ffd6;
+}
+
+.challenge-option.incorrect {
+  background: #ff668020;
+  border-color: #ff8195;
+  color: #ffb6c2;
+}
+
+.option-letter {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  color: #ffdf68;
+  background: #ffffff0c;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.challenge-option > span:nth-child(2) {
+  flex: 1;
+}
+
+.challenge-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  color: #28153e;
+  background: #ffdc57;
+  border: none;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.challenge-submit:hover:not(:disabled) {
+  background: #ffe783;
+  transform: translateY(-2px);
+}
+
+.challenge-submit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.challenge-feedback {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.challenge-feedback p {
+  margin: 5px 0 0;
+}
+
+.feedback-correct {
+  color: #b5ffda;
+  background: #2cc98916;
+  border: 1px solid #37c98a50;
+}
+
+.feedback-incorrect {
+  color: #ffd0d8;
+  background: #ff668012;
+  border: 1px solid #ff819550;
+}
+
+.challenge-footer {
+  margin: 12px 0 0;
+  color: #bba8d2;
+  font-size: 10px;
+  text-align: center;
+}
+
+@keyframes challenge-badge-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes challenge-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .daily-challenge-panel {
+    width: min(100%, 420px);
+    padding: 16px;
+  }
+
+  .robot-challenge-badge {
+    right: 0;
+    bottom: 5%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-challenge-badge {
+    animation: none;
+  }
+
+  .daily-challenge-panel {
+    animation: none;
+  }
+}
