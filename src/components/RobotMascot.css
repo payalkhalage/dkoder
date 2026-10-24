@@ -392,3 +392,418 @@
     animation: none;
   }
 }
+
+
+.robot-challenge-wrap {
+  perspective: 1100px;
+  isolation: isolate;
+}
+
+.robot-image-button {
+  --robot-rotate-x: 0deg;
+  --robot-rotate-y: 0deg;
+
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  transform:
+    rotateX(var(--robot-rotate-x))
+    rotateY(var(--robot-rotate-y));
+  transition:
+    transform 450ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    filter 350ms ease;
+}
+
+.robot-image-button::before,
+.robot-image-button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 48%;
+  width: 78%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 216, 77, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotateX(65deg) rotateZ(-18deg);
+  box-shadow: 0 0 24px rgba(255, 216, 77, 0.06);
+  animation: dk-robot-orbit 9s ease-in-out infinite;
+}
+
+.robot-image-button::after {
+  width: 65%;
+  border-color: rgba(168, 107, 255, 0.45);
+  transform: translate(-50%, -50%) rotateX(65deg) rotateZ(32deg);
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+.robot-image-button .modern-robot-image {
+  position: relative;
+  z-index: 1;
+  transform: translateZ(28px);
+  backface-visibility: hidden;
+  filter:
+    drop-shadow(0 12px 12px rgba(22, 8, 43, 0.18))
+    drop-shadow(0 0 26px rgba(168, 107, 255, 0.24));
+  transition: filter 350ms ease;
+}
+
+.robot-image-button:hover .modern-robot-image {
+  filter:
+    drop-shadow(0 16px 16px rgba(22, 8, 43, 0.22))
+    drop-shadow(0 0 36px rgba(168, 107, 255, 0.42));
+}
+
+.robot-challenge-badge {
+  z-index: 3;
+  transform: translateZ(48px);
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 8px 22px rgba(31, 15, 52, 0.16),
+    0 0 0 4px rgba(255, 216, 77, 0.08);
+  transition:
+    box-shadow 250ms ease,
+    background 250ms ease;
+}
+
+.robot-image-button:hover .robot-challenge-badge {
+  background: #ffe783;
+  box-shadow:
+    0 10px 26px rgba(31, 15, 52, 0.2),
+    0 0 0 5px rgba(255, 216, 77, 0.12);
+}
+
+.robot-image-button:focus-visible {
+  outline: 2px solid #ffd84d;
+  outline-offset: 7px;
+}
+
+.robot-image-button.challenge-active {
+  filter: saturate(1.06);
+}
+
+.robot-image-button.challenge-active .robot-challenge-badge {
+  animation-play-state: paused;
+}
+
+.daily-challenge-panel {
+  transform-origin: top center;
+  animation: dk-challenge-enter 380ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.challenge-option {
+  transform: translateZ(0);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.challenge-option:hover:not(:disabled) {
+  transform: translateX(3px);
+  box-shadow: 0 5px 16px rgba(8, 3, 20, 0.14);
+}
+
+.challenge-option.selected {
+  box-shadow: inset 3px 0 0 #ffd84d;
+}
+
+.challenge-submit {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 5px 15px rgba(255, 216, 77, 0.12);
+}
+
+.challenge-submit::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 75%
+  );
+  transform: translateX(-120%);
+  transition: transform 550ms ease;
+}
+
+.challenge-submit:hover:not(:disabled)::before {
+  transform: translateX(120%);
+}
+
+.challenge-close {
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+
+.challenge-close:hover {
+  background: rgba(255, 216, 77, 0.12);
+  border-color: rgba(255, 216, 77, 0.55);
+  transform: rotate(5deg);
+}
+
+
+@keyframes dk-robot-orbit {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 0.97;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.03;
+  }
+}
+
+@keyframes dk-challenge-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.975);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .robot-image-button {
+    transform: none;
+    transition: filter 250ms ease;
+  }
+
+  .robot-image-button::before {
+    width: 76%;
+  }
+
+  .robot-image-button::after {
+    width: 63%;
+  }
+
+  .robot-image-button .modern-robot-image {
+    transform: none;
+  }
+
+  .robot-challenge-badge {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-image-button,
+  .robot-image-button .modern-robot-image,
+  .robot-challenge-badge,
+  .challenge-option,
+  .challenge-submit,
+  .challenge-close {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .robot-image-button {
+    transform: none !important;
+  }
+
+  .robot-image-button::before,
+  .robot-image-button::after {
+    animation: none !important;
+    scale: 1;
+  }
+
+  .robot-image-button .modern-robot-image {
+    transform: none;
+  }
+
+  .daily-challenge-panel {
+    animation: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .challenge-option:hover:not(:disabled),
+  .challenge-submit:hover:not(:disabled),
+  .challenge-close:hover {
+    transform: none;
+  }
+}
+
+/* Force the interactive 3D tilt */
+.robot-challenge-wrap {
+  perspective: 1000px;
+}
+
+.robot-image-button {
+  transform:
+    rotateX(var(--robot-rotate-x, 0deg))
+    rotateY(var(--robot-rotate-y, 0deg)) !important;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 180ms ease-out;
+}
+
+.robot-image-button .modern-robot-image {
+  transform: translateZ(35px);
+  transition: filter 250ms ease;
+}
+
+/* Keep the robot steady on touch devices */
+@media (hover: none), (max-width: 760px) {
+  .robot-image-button {
+    transform: none !important;
+  }
+
+  .robot-image-button .modern-robot-image {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-image-button {
+    transition: none;
+  }
+}
+
+
+
+/* DKoder mascot introduction */
+
+
+.robot-image-button.intro-spin .modern-robot-image {
+  animation: dk-superman-spin 2.4s
+    cubic-bezier(0.45, 0.05, 0.25, 1) both;
+  transform-origin: center center;
+  backface-visibility: visible;
+}
+
+@keyframes dk-superman-spin {
+  0% {
+    transform: perspective(1000px)
+      rotateY(0deg)
+      rotateZ(0deg)
+      translateY(0)
+      scale(1);
+  }
+
+  20% {
+    transform: perspective(1000px)
+      rotateY(72deg)
+      rotateZ(-8deg)
+      translateY(-16px)
+      scale(1.04);
+  }
+
+  50% {
+    transform: perspective(1000px)
+      rotateY(180deg)
+      rotateZ(5deg)
+      translateY(-24px)
+      scale(1.08);
+  }
+
+  80% {
+    transform: perspective(1000px)
+      rotateY(288deg)
+      rotateZ(-3deg)
+      translateY(-10px)
+      scale(1.03);
+  }
+
+  100% {
+    transform: perspective(1000px)
+      rotateY(360deg)
+      rotateZ(0deg)
+      translateY(0)
+      scale(1);
+  }
+}
+
+.robot-image-button.intro-spin {
+  transition: none;
+  will-change: transform;
+}
+
+.robot-image-button.intro-spin .modern-robot-image {
+  will-change: transform;
+}
+
+.robot-intro-bubble {
+  position: absolute;
+  z-index: 5;
+  top: 8%;
+  right: -2%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: min(235px, 58%);
+  padding: 15px 16px;
+  color: #f8f2ff;
+  background: linear-gradient(145deg, #49316e, #2d1756);
+  border: 1px solid rgba(255, 216, 77, 0.7);
+  border-radius: 17px 17px 5px 17px;
+  box-shadow:
+    0 12px 30px rgba(25, 10, 45, 0.2),
+    0 0 22px rgba(168, 107, 255, 0.12);
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.5;
+  animation: dk-bubble-appear 550ms
+    cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.robot-intro-bubble strong {
+  color: #ffdc57;
+  font-size: 14px;
+}
+
+.robot-intro-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  color: #ffdc57;
+  font-weight: 800;
+}
+
+@keyframes dk-bubble-appear {
+  from {
+    opacity: 0;
+    transform: translate(12px, 10px) scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .robot-intro-bubble {
+    top: 3%;
+    right: 0;
+    width: min(210px, 62%);
+    padding: 12px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-image-button.intro-spin .modern-robot-image {
+    animation: none !important;
+  }
+
+  .robot-intro-bubble {
+    animation: none !important;
+  }
+}

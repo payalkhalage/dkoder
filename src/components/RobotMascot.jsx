@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Code2,
   Trophy,
@@ -89,6 +89,46 @@ export default function RobotMascot() {
   const [challengeIndex, setChallengeIndex] = useState(getTodayIndex);
   const [selected, setSelected] = useState(null);
   const [checked, setChecked] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+  const [introSpin, setIntroSpin] = useState(true);
+
+  useEffect(() => {
+    const spinTimer = setTimeout(() => {
+      setIntroSpin(false);
+    }, 1800);
+
+    const bubbleTimer = setTimeout(() => {
+      setShowIntro(false);
+    }, 8000);
+
+    return () => {
+      clearTimeout(spinTimer);
+      clearTimeout(bubbleTimer);
+    };
+  }, []);
+
+
+
+  const robotButtonRef = useRef(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handleRobotPointerMove(event) {
+    if (event.pointerType !== "mouse") return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    setTilt({
+      x: (0.5 - y) * 20,
+      y: (x - 0.5) * 24,
+    });
+  }
+
+  function handleRobotPointerLeave() {
+    setTilt({ x: 0, y: 0 });
+  }
 
   const challenge = challenges[challengeIndex];
   const isCorrect = selected === challenge.answer;
@@ -113,10 +153,17 @@ export default function RobotMascot() {
 
   return (
     <div className="robot-challenge-wrap">
+
       <button
-        type="button"
-        className="robot-image-button"
+        type="button" className={`robot-image-button ${isOpen ? "challenge-active" : ""
+          } ${introSpin ? "intro-spin" : ""}`}
         onClick={openChallenge}
+        onPointerMove={handleRobotPointerMove}
+        onPointerLeave={handleRobotPointerLeave}
+        style={{
+          "--robot-rotate-x": `${tilt.x}deg`,
+          "--robot-rotate-y": `${tilt.y}deg`,
+        }}
         aria-expanded={isOpen}
         aria-label="Open the daily coding challenge"
         title="Try today's coding challenge!"
@@ -126,10 +173,20 @@ export default function RobotMascot() {
           src="/images/dkoder-robot.png"
           alt="DKoder coding robot"
         />
+        {showIntro && !isOpen && (
+          <span className="robot-intro-bubble">
+            <strong>Hey, coder! 👋</strong>
+            <span>I have a daily challenge for you!</span>
+            <span className="robot-intro-cta">
+              Let's try it <span aria-hidden="true">→</span>
+            </span>
+          </span>
+        )}
         <span className="robot-challenge-badge">
           <Sparkles size={14} /> {isOpen ? "Let's code!" : "Tap to play"}
         </span>
       </button>
+
 
       {isOpen && (
         <section className="daily-challenge-panel" aria-label="Daily coding challenge">
@@ -201,9 +258,8 @@ export default function RobotMascot() {
 
           {checked && (
             <div
-              className={`challenge-feedback ${
-                isCorrect ? "feedback-correct" : "feedback-incorrect"
-              }`}
+              className={`challenge-feedback ${isCorrect ? "feedback-correct" : "feedback-incorrect"
+                }`}
               role="status"
             >
               <strong>

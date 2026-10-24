@@ -195,7 +195,6 @@ export default function Colleges() {
         </div>
       </section>
 
-      {/* Search results and filters */}
       <section className="college-directory">
         <div className="college-section-heading">
           <div>
@@ -246,7 +245,7 @@ export default function Colleges() {
           </label>
         </div>
 
-        {/* College cards */}
+
         {filteredColleges.length > 0 ? (
           <div className="college-grid">
             {filteredColleges.map((college, index) => (
@@ -325,7 +324,6 @@ export default function Colleges() {
         )}
       </section>
 
-      {/* Bottom CTA */}
       <section className="college-bottom-cta">
         <div className="college-cta-icon"><GraduationCap size={32} /></div>
         <div>
@@ -343,7 +341,6 @@ export default function Colleges() {
         </a>
       </section>
 
-      {/* College details modal */}
       {selectedCollege && (
         <div
           className="college-modal-backdrop"

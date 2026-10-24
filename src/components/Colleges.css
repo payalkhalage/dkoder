@@ -443,7 +443,6 @@
   cursor: pointer;
 }
 
-/* Cards */
 .college-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -651,7 +650,6 @@
   transform: translateY(-1px);
 }
 
-/* Empty search results */
 .college-empty-state {
   display: flex;
   min-height: 300px;
@@ -695,7 +693,6 @@
   cursor: pointer;
 }
 
-/* Bottom call to action */
 .college-bottom-cta {
   display: flex;
   align-items: center;
@@ -773,7 +770,6 @@
   text-align: center;
 }
 
-/* Details modal */
 .college-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1087,3 +1083,322 @@
     scroll-behavior: auto !important;
   }
 }
+
+.college-card {
+  position: relative;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  border-left: 4px solid transparent;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease,
+    border-color 0.3s ease;
+}
+
+.college-card:has(.college-card-visual.purple) {
+  --card-accent: #8055c7;
+}
+
+.college-card:has(.college-card-visual.yellow) {
+  --card-accent: #e8b91c;
+}
+
+.college-card:has(.college-card-visual.pink) {
+  --card-accent: #c66bb4;
+}
+
+.college-card:has(.college-card-visual.blue) {
+  --card-accent: #5599d8;
+}
+
+.college-card:has(.college-card-visual.green) {
+  --card-accent: #42a88b;
+}
+
+.college-card:has(.college-card-visual.orange) {
+  --card-accent: #ed985b;
+}
+
+.college-card::before {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: var(--card-accent, #8055c7);
+  border-radius: 0 0 5px 0;
+  transition: height 0.4s ease;
+  pointer-events: none;
+}
+
+.college-card:hover {
+  transform: translateY(-9px) rotateX(2deg) rotateY(-1deg);
+  border-left-color: var(--card-accent, #8055c7);
+  box-shadow:
+    0 25px 45px #301b501c,
+    0 8px 16px #301b500b;
+}
+
+.college-card:hover::before {
+  height: 100%;
+}
+
+.college-card::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent,
+    #ffffff35,
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.college-card:hover::after {
+  animation: college-card-shine 0.85s ease forwards;
+}
+
+@keyframes college-card-shine {
+  from { left: -120%; }
+  to { left: 160%; }
+}
+
+.college-card-visual {
+  isolation: isolate;
+  perspective: 700px;
+  transition: filter 0.35s ease;
+}
+
+.college-card-visual::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 155px;
+  height: 155px;
+  top: -85px;
+  right: -45px;
+  border: 1px solid #ffffff40;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 14px #ffffff0b,
+    0 0 0 29px #ffffff08;
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.college-card:hover .college-card-visual::before {
+  transform: scale(1.18) rotate(25deg);
+}
+
+.college-card-icon {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 5px 14px #1c10301c;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.college-card:hover .college-card-icon {
+  transform: translateY(-3px) rotate(8deg) scale(1.08);
+  box-shadow: 0 10px 22px #1c103030;
+}
+
+.college-monogram {
+  text-shadow: 0 4px 15px #160b2b20;
+  transition: transform 0.4s ease;
+}
+
+.college-card:hover .college-monogram {
+  transform: translateZ(20px) translateX(4px);
+}
+
+.college-visual-decoration {
+  transform: rotate(-8deg) translateZ(0);
+  transition:
+    transform 0.55s ease,
+    color 0.35s ease;
+}
+
+.college-card:hover .college-visual-decoration {
+  transform: rotate(2deg) translate(-5px, -5px) scale(1.12);
+}
+
+
+.colleges-hero {
+  isolation: isolate;
+}
+
+.colleges-hero::before,
+.colleges-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.colleges-hero::before {
+  top: 12%;
+  left: 49%;
+  width: 65px;
+  height: 65px;
+  border: 2px solid #ffd84d75;
+  border-radius: 18px;
+  transform: rotate(25deg);
+  animation: college-shape-float 8s ease-in-out infinite;
+}
+
+.colleges-hero::after {
+  right: 6%;
+  top: 15%;
+  width: 22px;
+  height: 22px;
+  background: #ffd84d;
+  border-radius: 50%;
+  box-shadow:
+    -65px 90px 0 -5px #b69be9,
+    50px 170px 0 -7px #ffffffb0;
+  animation: college-dot-float 5s ease-in-out infinite;
+}
+
+@keyframes college-shape-float {
+  0%, 100% {
+    transform: translateY(0) rotate(25deg);
+  }
+  50% {
+    transform: translateY(-22px) rotate(70deg);
+  }
+}
+
+@keyframes college-dot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(16px); }
+}
+
+.college-art-circle {
+  transform-style: preserve-3d;
+  transition: box-shadow 0.4s ease;
+}
+
+.college-art-circle:hover {
+  box-shadow:
+    0 35px 80px #12072970,
+    inset 0 0 45px #ffffff15;
+}
+
+.college-art-building {
+  box-shadow:
+    0 15px 30px #160a3020,
+    inset 0 1px 0 #ffffff25;
+  transition: transform 0.45s ease;
+}
+
+.college-art-circle:hover .college-art-building {
+  transform: rotate(0deg) translateZ(25px) scale(1.04);
+}
+
+.college-art-cap,
+.college-art-code,
+.college-art-sparkle {
+  transition: transform 0.4s ease;
+}
+
+.college-art-circle:hover .college-art-cap {
+  transform: rotate(15deg) translateZ(22px);
+}
+
+.college-art-circle:hover .college-art-code {
+  transform: rotate(-15deg) translateZ(18px);
+}
+
+
+.college-course-tags span {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.college-course-tags span:hover {
+  transform: translateY(-3px);
+  background: #eee4ff;
+  border-color: #cbb7ed;
+  box-shadow: 0 5px 12px #301b5010;
+}
+
+
+.college-view-button svg,
+.college-bottom-cta a svg {
+  transition: transform 0.3s ease;
+}
+
+.college-view-button:hover svg,
+.college-bottom-cta a:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.college-view-button:active,
+.college-bottom-cta a:active {
+  transform: scale(0.98);
+}
+
+.college-filter-chip {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.college-filter-chip:hover {
+  transform: translateY(-2px);
+}
+
+
+.college-view-button:focus-visible,
+.college-filter-chip:focus-visible,
+.college-clear-search:focus-visible,
+.college-modal-close:focus-visible,
+.college-empty-state button:focus-visible {
+  outline: 3px solid #b69be9;
+  outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .college-card,
+  .college-card::before,
+  .college-card::after,
+  .college-card-visual::before,
+  .college-card-icon,
+  .college-monogram,
+  .college-visual-decoration,
+  .college-art-building,
+  .college-art-cap,
+  .college-art-code,
+  .college-course-tags span,
+  .college-view-button svg,
+  .college-bottom-cta a svg,
+  .college-filter-chip {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .college-card:hover,
+  .college-course-tags span:hover,
+  .college-filter-chip:hover {
+    transform: none;
+  }
+}
+

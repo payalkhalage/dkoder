@@ -90,8 +90,6 @@ export default function MOU() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    // Front-end demo only: connect this form to a backend or form service
-    // before collecting real submissions.
     setSubmitted(true);
   }
 
@@ -251,7 +249,7 @@ export default function MOU() {
         </div>
       </section>
 
-      {/* Process */}
+      
       <section className="mou-process-section">
         <div className="mou-section-heading">
           <span className="mou-kicker">HOW IT WORKS</span>
@@ -274,7 +272,7 @@ export default function MOU() {
         </div>
       </section>
 
-      {/* Contact form */}
+      
       <section className="mou-contact-section" id="mou-interest">
         <div className="mou-contact-copy">
           <span className="mou-kicker">LET'S START A CONVERSATION</span>

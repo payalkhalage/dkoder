@@ -568,3 +568,222 @@
     transition: none;
   }
 }
+
+.hackathon-card {
+  --card-accent: #9259d9;
+  --card-glow: rgba(146, 89, 217, 0.16);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 27px 25px 25px 29px;
+  background: linear-gradient(145deg, #ffffff 0%, #fcf9ff 100%);
+  border: 1px solid #ece4f4;
+  border-left: 4px solid var(--card-accent);
+  border-radius: 19px;
+  box-shadow: 0 8px 25px rgba(58, 29, 87, 0.07);
+  transform: translateY(0);
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease,
+    border-color 0.3s ease,
+    background 0.4s ease;
+  animation: hack-card-appear 0.65s both;
+}
+
+.hackathon-card:has(.hack-card-icon.purple) {
+  --card-accent: #9259d9;
+  --card-glow: rgba(146, 89, 217, 0.17);
+}
+
+.hackathon-card:has(.hack-card-icon.yellow) {
+  --card-accent: #e8b92f;
+  --card-glow: rgba(232, 185, 47, 0.18);
+}
+
+.hackathon-card:has(.hack-card-icon.pink) {
+  --card-accent: #e66aa6;
+  --card-glow: rgba(230, 106, 166, 0.17);
+}
+
+.hackathon-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -90px;
+  right: -90px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: var(--card-glow);
+  filter: blur(40px);
+  opacity: 0.45;
+  transition:
+    transform 0.5s ease,
+    opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.hackathon-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 75%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent,
+    rgba(255, 255, 255, 0.65),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.hackathon-card:hover {
+  transform: translateY(-10px) scale(1.015);
+  border-color: var(--card-accent);
+  box-shadow:
+    0 22px 45px rgba(58, 29, 87, 0.12),
+    0 0 24px var(--card-glow);
+}
+
+.hackathon-card:hover::before {
+  transform: scale(1.6);
+  opacity: 0.9;
+}
+
+.hackathon-card:hover::after {
+  animation: hack-card-shine 0.85s ease forwards;
+}
+
+.hack-card-icon {
+  position: relative;
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease;
+}
+
+.hackathon-card:hover .hack-card-icon {
+  transform: translateY(-4px) rotate(-7deg) scale(1.08);
+  box-shadow: 0 9px 20px var(--card-glow);
+}
+
+.hack-card-category {
+  transition: color 0.3s ease;
+}
+
+.hackathon-card:hover .hack-card-category {
+  color: var(--card-accent);
+}
+
+.hackathon-card h3 {
+  position: relative;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.hackathon-card:hover h3 {
+  color: var(--card-accent);
+  transform: translateX(3px);
+}
+
+.hack-tags span {
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.hack-tags span:hover {
+  color: white;
+  background: var(--card-accent);
+  transform: translateY(-3px);
+}
+
+.hack-card-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(110deg, #7040a7, #9259d9);
+  box-shadow: 0 5px 13px rgba(112, 64, 167, 0.15);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.hack-card-button svg {
+  transition: transform 0.3s ease;
+}
+
+.hack-card-button:hover {
+  background: linear-gradient(110deg, #542782, #7040a7);
+  box-shadow: 0 7px 18px rgba(112, 64, 167, 0.28);
+  transform: translateY(-2px);
+}
+
+.hack-card-button:hover svg {
+  transform: translate(3px, -3px);
+}
+
+@keyframes hack-card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hack-card-shine {
+  from {
+    left: -130%;
+  }
+
+  to {
+    left: 160%;
+  }
+}
+
+.hack-card-button:focus-visible,
+.hack-filters button:focus-visible {
+  outline: 3px solid #a66be2;
+  outline-offset: 4px;
+}
+
+@media (max-width: 700px) {
+  .hackathon-card {
+    padding: 23px 20px 21px 24px;
+  }
+
+  .hackathon-card:hover {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hackathon-card {
+    animation: none;
+    transition: none;
+  }
+
+  .hackathon-card:hover {
+    transform: none;
+  }
+
+  .hackathon-card::after {
+    display: none;
+  }
+
+  .hack-card-icon,
+  .hack-tags span,
+  .hack-card-button,
+  .hack-card-button svg {
+    transition: none;
+  }
+}

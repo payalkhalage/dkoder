@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Code2,
@@ -77,24 +77,68 @@ function scrollToSection(id) {
   });
 }
 
+const learningSteps = [
+  {
+    number: "01",
+    title: "Build Your Foundation",
+    subtitle: "Start here",
+    description: "Learn programming basics, variables, loops, and functions.",
+    icon: BookOpen,
+    skills: ["Programming basics", "Logic building"],
+  },
+  {
+    number: "02",
+    title: "Solve Daily Challenges",
+    subtitle: "Practice mode",
+    description: "Strengthen problem-solving with coding questions and MCQs.",
+    icon: Code2,
+    skills: ["Coding problems", "MCQ practice"],
+  },
+  {
+    number: "03",
+    title: "Build Real Projects",
+    subtitle: "Create something",
+    description: "Apply your knowledge to practical projects and experiments.",
+    icon: Rocket,
+    skills: ["Hands-on projects", "Debugging"],
+  },
+  {
+    number: "04",
+    title: "Get Interview Ready",
+    subtitle: "Reach your goal",
+    description: "Prepare with mock tests, revision, and interview practice.",
+    icon: Trophy,
+    skills: ["Mock exams", "Interview prep"],
+  },
+];
+
 export default function Home() {
   const navigate = useNavigate();
 
-  
+
+  const [completedSteps, setCompletedSteps] = useState([]);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const toggleStep = (index) => {
+    setCompletedSteps((previous) =>
+      previous.includes(index)
+        ? previous.filter((step) => step !== index)
+        : [...previous, index]
+    );
+
+    setActiveStep(index);
+  };
+
   useEffect(() => {
     const elements = document.querySelectorAll(
       ".dk-home [data-reveal]"
     );
 
-    
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      elements.forEach((element) => {
-        element.classList.add("is-visible");
-      });
-      return;
-    }
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-    if (!("IntersectionObserver" in window)) {
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       elements.forEach((element) => {
         element.classList.add("is-visible");
       });
@@ -102,32 +146,35 @@ export default function Home() {
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries, observerInstance) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
+            observerInstance.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -35px 0px",
+        threshold: 0.15,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
     elements.forEach((element) => {
-      const delay = element.dataset.delay || "0";
-      element.style.setProperty("--reveal-delay", `${delay}ms`);
+      element.style.setProperty(
+        "--reveal-delay",
+        `${element.dataset.delay || 0}ms`
+      );
       observer.observe(element);
     });
 
     return () => observer.disconnect();
   }, []);
 
+
   return (
     <div className="dk-home">
-  
+
       <section className="dk-hero" id="home">
         <div className="hero-glow hero-glow-one" />
         <div className="hero-glow hero-glow-two" />
@@ -420,24 +467,141 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="dk-placeholder-section" id="tutorials">
-        <div
-          className="placeholder-icon"
-          data-reveal="scale"
-        >
-          <GraduationCap size={28} />
-        </div>
 
-        <div data-reveal="up" data-delay="100">
-          <span className="section-eyebrow">COMING UP NEXT</span>
+      <section className="dk-learning-path" id="tutorials">
+        <div className="path-heading" data-reveal="up">
+          <span className="section-eyebrow">
+            <Sparkles size={15} /> YOUR NEXT LEVEL STARTS HERE
+          </span>
 
-          <h2>Your learning journey begins here.</h2>
+          <h2>
+            Every step takes you <span>closer to your goal.</span>
+          </h2>
 
           <p>
-            This space is ready for your coding tutorials and learning paths.
+            Follow your path, practice consistently, and turn what you
+            learn into real skills.
           </p>
         </div>
+
+        <div className="path-progress">
+          <div className="path-progress-top">
+            <span>YOUR LEARNING JOURNEY</span>
+            <strong>
+              {completedSteps.length} / {learningSteps.length} completed
+            </strong>
+          </div>
+
+          <div className="path-progress-track">
+            <div
+              className="path-progress-fill"
+              style={{
+                width: `${(completedSteps.length / learningSteps.length) * 100}%`,
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="learning-road">
+          <svg
+            className="learning-road-svg"
+            viewBox="0 0 1000 240"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              className="road-shadow"
+              d="M60 120 C160 15 250 15 330 120 S500 225 580 120 S750 15 940 120"
+            />
+            <path
+              className="road-base"
+              d="M60 120 C160 15 250 15 330 120 S500 225 580 120 S750 15 940 120"
+            />
+            <path
+              className="road-animated"
+              d="M60 120 C160 15 250 15 330 120 S500 225 580 120 S750 15 940 120"
+            />
+          </svg>
+
+          <div className="learning-road-cards">
+            {learningSteps.map((step, index) => {
+              const Icon = step.icon;
+              const completed = completedSteps.includes(index);
+
+              return (
+                <article
+                  className={`path-card ${completed ? "path-card-complete" : ""} ${activeStep === index ? "path-card-active" : ""
+                    }`}
+                  key={step.number}
+                  data-reveal="up"
+                  data-delay={index * 120}
+                >
+                  <div className="path-node-wrap">
+                    <span className="path-node-halo" />
+                    <button
+                      className="path-node"
+                      type="button"
+                      onClick={() => toggleStep(index)}
+                      aria-label={`${completed ? "Mark incomplete" : "Mark complete"}: ${step.title}`}
+                      aria-pressed={completed}
+                    >
+                      {completed ? (
+                        <span className="path-node-check">✓</span>
+                      ) : (
+                        <Icon size={23} />
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="path-card-content">
+                    <span className="path-step-label">
+                      STEP {step.number} · {step.subtitle}
+                    </span>
+
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+
+                    <div className="path-skills">
+                      {step.skills.map((skill) => (
+                        <span key={skill}>{skill}</span>
+                      ))}
+                    </div>
+
+                    <button
+                      className="path-action"
+                      onClick={() => {
+                        setActiveStep(index);
+                        toggleStep(index);
+                      }}
+                    >
+                      {completed ? "Completed" : "Mark as complete"}
+                      <ArrowRight size={16} />
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="path-finish" data-reveal="scale">
+          <div className="path-finish-icon">
+            <Trophy size={25} />
+          </div>
+
+          <div>
+            <strong>
+              {completedSteps.length === learningSteps.length
+                ? "Amazing! You've completed your journey."
+                : "Your next breakthrough is one step away."}
+            </strong>
+            <p>
+              Keep practising. Every problem you solve builds confidence.
+            </p>
+          </div>
+        </div>
       </section>
+
 
       <footer className="dk-footer">
         <div className="footer-contact-strip">
